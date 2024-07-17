@@ -17,11 +17,16 @@ terraform {
       source  = "hashicorp/local"
       version = "2.5.1"
     }
+    azuread = {
+      source = "hashicorp/azuread"
+      version = "2.53.1"
+    }
   }
 }
 
 provider "random" {}
 provider "local" {}
+provider "azuread" {}
 
 provider "azurerm" {
   features {}

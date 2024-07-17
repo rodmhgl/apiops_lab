@@ -18,7 +18,7 @@ resource "azuredevops_project" "this" {
 #endregion
 
 #region service connection
-#TODO: create app registration as part of this to avoid passing vars
+# TODO: We should really use Workload identity federation instead 
 resource "azuredevops_serviceendpoint_azurerm" "this" {
   project_id                             = azuredevops_project.this.id
   service_endpoint_name                  = "APIOps_Lab"
@@ -26,12 +26,12 @@ resource "azuredevops_serviceendpoint_azurerm" "this" {
   service_endpoint_authentication_scheme = "ServicePrincipal"
 
   credentials {
-    serviceprincipalid  = var.azurerm_serviceprincipal_id
-    serviceprincipalkey = var.azurerm_serviceprincipal_key
+    serviceprincipalid  = azuread_service_principal.apiops.client_id
+    serviceprincipalkey = azuread_service_principal_password.apiops.value
   }
 
-  azurerm_spn_tenantid      = var.azurerm_spn_tenantid
-  azurerm_subscription_id   = var.azurerm_subscription_id
-  azurerm_subscription_name = var.azurerm_subscription_name
+  azurerm_spn_tenantid      = data.azurerm_subscription.current.tenant_id
+  azurerm_subscription_id   = data.azurerm_subscription.current.subscription_id
+  azurerm_subscription_name = data.azurerm_subscription.current.display_name
 }
 #endregion

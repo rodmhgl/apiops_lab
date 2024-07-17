@@ -1,3 +1,5 @@
+data "azurerm_subscription" "current" {}
+
 data "azuredevops_users" "all_vsts_svc_users" {
   origin        = "vsts"
   subject_types = ["svc"]

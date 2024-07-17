@@ -31,27 +31,6 @@ variable "ado_principal_name" {
   type        = string
 }
 
-variable "azurerm_serviceprincipal_id" {
-  type        = string
-  description = "The Service Principal ID for the AzureRM Service Connection."
-}
-variable "azurerm_serviceprincipal_key" {
-  type        = string
-  description = "The Service Principal Key for the AzureRM Service Connection."
-}
-variable "azurerm_spn_tenantid" {
-  type        = string
-  description = "The Tenant ID for the AzureRM Service Connection."
-}
-variable "azurerm_subscription_id" {
-  type        = string
-  description = "The Subscription ID for the AzureRM Service Connection."
-}
-variable "azurerm_subscription_name" {
-  type        = string
-  description = "The Subscription Name for the AzureRM Service Connection."
-}
-
 #region ADO Variable Group
 variable "apim_dev_name" {
   type        = string
