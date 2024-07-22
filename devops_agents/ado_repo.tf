@@ -1,24 +1,20 @@
 locals {
-  pipeline_files = [
-    "repo/tools/pipelines/run-extractor.yaml",
-    "repo/tools/pipelines/run-publisher.yaml",
-    "repo/tools/pipelines/run-publisher-with-env.yaml",
-  ]
-  config_files = [
-    "repo/configuration.prod.yaml"
-  ]
+  config_fileset_path   = "repo"
+  pipeline_fileset_path = "repo/tools/pipelines"
+  config_fileset        = fileset(local.config_fileset_path, "*")
+  pipeline_fileset      = fileset(local.pipeline_fileset_path, "*")
 }
 
 data "local_file" "pipelines" {
-  for_each = toset(local.pipeline_files)
+  for_each = local.pipeline_fileset
 
-  filename = each.key
+  filename = "${local.pipeline_fileset_path}/${each.key}"
 }
 
 data "local_file" "configs" {
-  for_each = toset(local.config_files)
+  for_each = local.config_fileset
 
-  filename = each.key
+  filename = "${local.config_fileset_path}/${each.key}"
 }
 
 resource "azuredevops_git_repository" "apiops" {
@@ -46,7 +42,7 @@ resource "azuredevops_git_repository_file" "pipelines" {
   overwrite_on_create = true
 
   lifecycle {
-    ignore_changes = [ commit_message ]
+    ignore_changes = [commit_message]
   }
 }
 
@@ -61,6 +57,6 @@ resource "azuredevops_git_repository_file" "configs" {
   overwrite_on_create = true
 
   lifecycle {
-    ignore_changes = [ commit_message ]
+    ignore_changes = [commit_message]
   }
 }
