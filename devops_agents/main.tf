@@ -39,8 +39,20 @@ resource "azurerm_container_group" "main" {
       AZP_POOL       = local.agent_pool
       AZP_AGENT_NAME = local.agent_name
     }
+
+  }
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.agent.id]
   }
 
   depends_on = [azuredevops_agent_pool.main]
 
+}
+
+resource "azurerm_user_assigned_identity" "agent" {
+  name                = "${local.agent_name}-uai"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
 }

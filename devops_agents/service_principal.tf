@@ -1,22 +1,19 @@
-data "azuread_client_config" "current" {}
 
-resource "azuread_application" "apiops" {
+resource "azuread_application_registration" "apiops" {
   display_name = "sp-apiops-lab"
-  owners       = [data.azuread_client_config.current.object_id]
 }
 
-resource "azuread_service_principal" "apiops" {
-  application_id               = azuread_application.apiops.application_id
-  app_role_assignment_required = false
-  owners                       = [data.azuread_client_config.current.object_id]
-}
-
-resource "azuread_service_principal_password" "apiops" {
-  service_principal_id = azuread_service_principal.apiops.object_id
+resource "azurerm_federated_identity_credential" "apiops" {
+  name                = "apiops-federated-credential"
+  resource_group_name = azurerm_resource_group.main.name
+  parent_id           = azurerm_user_assigned_identity.agent.id
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = azuredevops_serviceendpoint_azurerm.this.workload_identity_federation_issuer
+  subject             = azuredevops_serviceendpoint_azurerm.this.workload_identity_federation_subject
 }
 
 resource "azurerm_role_assignment" "apiops" {
   role_definition_name = "Contributor"
-  principal_id         = azuread_service_principal.apiops.id
+  principal_id         = azurerm_user_assigned_identity.agent.principal_id
   scope                = data.azurerm_subscription.current.id
 }

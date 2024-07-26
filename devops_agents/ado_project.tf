@@ -1,4 +1,3 @@
-#TODO: Create build definitions once repo is populated
 #region project
 resource "azuredevops_project" "this" {
   name               = "apiops"
@@ -18,16 +17,14 @@ resource "azuredevops_project" "this" {
 #endregion
 
 #region service connection
-# TODO: We should really use Workload identity federation instead 
 resource "azuredevops_serviceendpoint_azurerm" "this" {
   project_id                             = azuredevops_project.this.id
   service_endpoint_name                  = "APIOps_Lab"
   description                            = "Managed by Terraform"
-  service_endpoint_authentication_scheme = "ServicePrincipal"
+  service_endpoint_authentication_scheme = "WorkloadIdentityFederation"
 
   credentials {
-    serviceprincipalid  = azuread_service_principal.apiops.client_id
-    serviceprincipalkey = azuread_service_principal_password.apiops.value
+    serviceprincipalid = azurerm_user_assigned_identity.agent.client_id
   }
 
   azurerm_spn_tenantid      = data.azurerm_subscription.current.tenant_id
