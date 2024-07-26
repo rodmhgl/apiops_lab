@@ -19,8 +19,7 @@ resource "azuredevops_build_definition" "extractor" {
   ]
 
   depends_on = [
-    azuredevops_git_repository_file.configs,
-    azuredevops_git_repository_file.pipelines
+    azuredevops_git_repository.apiops
   ]
 }
 
@@ -36,7 +35,7 @@ resource "azuredevops_build_definition" "publisher" {
   repository {
     repo_type   = "TfsGit"
     repo_id     = azuredevops_git_repository.apiops.id
-    branch_name = "main"
+    branch_name = "refs/heads/main"
     yml_path    = "tools/pipelines/run-publisher.yaml"
   }
 
@@ -45,7 +44,6 @@ resource "azuredevops_build_definition" "publisher" {
   ]
 
   depends_on = [
-    azuredevops_git_repository_file.configs,
-    azuredevops_git_repository_file.pipelines
+    azuredevops_git_repository.apiops
   ]
 }

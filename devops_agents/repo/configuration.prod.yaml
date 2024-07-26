@@ -1,5 +1,0 @@
-apimServiceName: apiopsprdapimlab
-apis:
-  - name: colors-api
-    properties:
-      serviceUrl: http://52.188.92.106
