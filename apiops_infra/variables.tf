@@ -49,3 +49,18 @@ variable "sku_count" {
     error_message = "The sku_count must be one of the following: 1, 2."
   }
 }
+
+variable "dns_subscription_id" {
+  description = "The ID of the subscription containing the Public DNS for the Containers"
+  type        = string
+}
+
+variable "dns_zone_name" {
+  description = "The name of the public DNS zone."
+  type        = string
+}
+
+variable "dns_resource_group_name" {
+  description = "The name of the resource group containing the public DNS zone."
+  type        = string
+}

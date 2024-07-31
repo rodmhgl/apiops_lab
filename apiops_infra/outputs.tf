@@ -13,3 +13,11 @@ output "resource_group_name" {
 output "api_management_service_name" {
   value = { for k, v in azurerm_api_management.this : k => v.name }
 }
+
+output "web_container_dns_name" {
+  value = { for k, v in azurerm_dns_a_record.web : k => "http://${v.fqdn}" }
+}
+
+output "api_container_dns_name" {
+  value = { for k, v in azurerm_dns_a_record.api : k => "http://${v.fqdn}" }
+}

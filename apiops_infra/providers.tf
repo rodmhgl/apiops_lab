@@ -11,5 +11,19 @@ terraform {
   }
 }
 provider "azurerm" {
+  features {
+    api_management {
+      purge_soft_delete_on_destroy = true
+      recover_soft_deleted         = true
+    }
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+}
+
+provider "azurerm" {
+  alias           = "dns"
+  subscription_id = var.dns_subscription_id
   features {}
 }
