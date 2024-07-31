@@ -6,7 +6,7 @@ resource "azuredevops_git_repository" "apiops" {
   initialization {
     init_type   = "Import"
     source_type = "Git"
-    source_url  = "https://github.com/rodmhgl/apiops_starter_reop.git"
+    source_url  = "https://github.com/rodmhgl/apiops_starter_repo.git"
   }
 
   depends_on = [
