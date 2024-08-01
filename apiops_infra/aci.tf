@@ -22,7 +22,7 @@ resource "azurerm_dns_a_record" "web" {
   name                = "colors-web-${each.key}"
   zone_name           = data.azurerm_dns_zone.public.name
   resource_group_name = data.azurerm_dns_zone.public.resource_group_name
-  ttl                 = 300
+  ttl                 = 60
   records             = [module.colours_api_containers[each.key].web_container_ipv4_address]
 }
 
@@ -33,7 +33,7 @@ resource "azurerm_dns_a_record" "api" {
   name                = "colors-api-${each.key}"
   zone_name           = data.azurerm_dns_zone.public.name
   resource_group_name = data.azurerm_dns_zone.public.resource_group_name
-  ttl                 = 300
+  ttl                 = 60
   records             = [module.colours_api_containers[each.key].api_container_ipv4_address]
 }
 
