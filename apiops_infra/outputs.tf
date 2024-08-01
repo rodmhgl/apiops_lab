@@ -14,6 +14,10 @@ output "api_management_service_name" {
   value = { for k, v in azurerm_api_management.this : k => v.name }
 }
 
+output "api_management_gateway_url" {
+  value = { for k, v in azurerm_api_management.this : k => v.gateway_url }
+}
+
 output "web_container_dns_name" {
   value = { for k, v in azurerm_dns_a_record.web : k => "http://${v.fqdn}" }
 }
