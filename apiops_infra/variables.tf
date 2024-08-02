@@ -35,7 +35,7 @@ variable "sku" {
   default     = "Developer"
   type        = string
   validation {
-    condition     = contains(["Developer", "Standard", "Premium"], var.sku)
+    condition     = contains(["Consumption", "Developer", "Basic", "Standard", "Premium"], var.sku)
     error_message = "The sku must be one of the following: Developer, Standard, Premium."
   }
 }
@@ -45,8 +45,8 @@ variable "sku_count" {
   default     = 1
   type        = number
   validation {
-    condition     = contains([1, 2], var.sku_count)
-    error_message = "The sku_count must be one of the following: 1, 2."
+    condition     = contains([0, 1, 2], var.sku_count)
+    error_message = "The sku_count must be one of the following: 0, 1, 2."
   }
 }
 
