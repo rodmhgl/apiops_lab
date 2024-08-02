@@ -8,7 +8,7 @@ resource "azurerm_container_group" "colours_api" {
 
   container {
     name   = "${var.container_app_name}-api"
-    image  = var.image_api
+    image  = strcontains(var.container_app_name, "dev") ? "${var.image_api}:blue": "${var.image_api}:green"
     cpu    = var.cpu_cores
     memory = var.memory_in_gb
 

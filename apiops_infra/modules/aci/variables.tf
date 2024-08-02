@@ -34,7 +34,7 @@ variable "image_web" {
 variable "image_api" {
   type        = string
   description = "Container image to deploy. Should be of the form repoName/imagename:tag for images stored in public Docker Hub, or a fully qualified URI for other registries. Images from private registries require additional registry credentials."
-  default     = "ghcr.io/markharrison/coloursapi:latest"
+  default     = "ghcr.io/markharrison/coloursapi"
 }
 
 variable "port" {
