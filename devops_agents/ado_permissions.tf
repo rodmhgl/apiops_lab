@@ -63,3 +63,35 @@ resource "azuredevops_git_permissions" "apiops" {
     PullRequestContribute = "Allow"
   }
 }
+
+locals {
+  pipeline_ids = {
+    publisher = { id = azuredevops_build_definition.publisher.id }
+    extractor = { id = azuredevops_build_definition.extractor.id }
+  }
+}
+
+resource "azuredevops_pipeline_authorization" "publisher_variable_group" {
+  for_each = local.pipeline_ids
+
+  project_id  = azuredevops_project.this.id
+  resource_id = azuredevops_variable_group.apiops.id
+  type        = "variablegroup"
+  pipeline_id = each.value.id
+}
+
+resource "azuredevops_pipeline_authorization" "publisher_service_endpoint" {
+  for_each = local.pipeline_ids
+
+  project_id  = azuredevops_project.this.id
+  resource_id = azuredevops_serviceendpoint_azurerm.this.id
+  type        = "endpoint"
+  pipeline_id = each.value.id
+}
+
+resource "azuredevops_pipeline_authorization" "publisher_prod_environment" {
+  project_id  = azuredevops_project.this.id
+  resource_id = azuredevops_environment.prod.id
+  type        = "environment"
+  pipeline_id = azuredevops_build_definition.publisher.id
+}
